@@ -50,6 +50,8 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public Collection<UserMeal> getAll(int userId) {
+        if (repository.get(userId) == null)
+            repository.put(userId, new ConcurrentHashMap<>());
         return repository.get(userId).values()
                 .stream()
                 .sorted((m1, m2) -> m1.getDateTime().compareTo(m2.getDateTime()))

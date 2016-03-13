@@ -23,7 +23,8 @@
     <h3>Meal list</h3>
     <a href="meals?action=create">Add Meal</a>
     <a href="meals">All Meals</a>
-    <form method="post" action="meals/filtered">
+    <form method="post" action="meals">
+        <input type="hidden" name="action" value="filtermeals">
         <dl>
             <dt>From</dt>
             <dd><input type="time" name="dateTimeFrom"></dd>

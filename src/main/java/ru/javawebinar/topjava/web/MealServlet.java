@@ -42,7 +42,7 @@ public class MealServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         String action = request.getParameter("action");
-        if (action.equals("meals")) {
+        if (action.equals("addmeal")) {
             request.setCharacterEncoding("UTF-8");
             String id = request.getParameter("id");
             UserMeal userMeal = new UserMeal(id.isEmpty() ? null : Integer.valueOf(id),
@@ -52,10 +52,10 @@ public class MealServlet extends HttpServlet {
             LOG.info(userMeal.isNew() ? "Create {}" : "Update {}", userMeal);
             controller.save(userMeal, LoggedUser.id());
             response.sendRedirect("meals");
-        } else if (action.equals("meals/filtered")) {
+        } else if (action.equals("filtermeals")) {
             request.setAttribute("mealList", UserMealsUtil.getFilteredWithExceeded(
                     controller.getAll(), LocalTime.parse(request.getParameter("dateTimeFrom")),
-                    LocalTime.parse(request.getParameter("dateTimeTo")), UserMealsUtil.DEFAULT_CALORIES_PER_DAY
+                    LocalTime.parse(request.getParameter("dateTimeTo")), LoggedUser.getCaloriesPerDay()
             ));
             request.getRequestDispatcher("mealList.jsp").forward(request, response);
         }
@@ -67,7 +67,7 @@ public class MealServlet extends HttpServlet {
         if (action == null) {
             LOG.info("getAll");
             request.setAttribute("mealList",
-                    UserMealsUtil.getWithExceeded(controller.getAll(), UserMealsUtil.DEFAULT_CALORIES_PER_DAY));
+                    UserMealsUtil.getWithExceeded(controller.getAll(), LoggedUser.getCaloriesPerDay()));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
         } else if (action.equals("delete")) {
             int id = getId(request);
