@@ -22,7 +22,16 @@
     <h2><a href="index.html">Home</a></h2>
     <h3>Meal list</h3>
     <a href="meals?action=create">Add Meal</a>
-
+    <a href="meals">All Meals</a>
+    <form method="post" action="meals/filtered">
+        <dl>
+            <dt>From</dt>
+            <dd><input type="time" name="dateTimeFrom"></dd>
+            <dt>To</dt>
+            <dd><input type="time" name = "dateTimeTo"></dd>
+            <dd><button type="submit">Submit</button></dd>
+        </dl>
+    </form>
     <hr>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
