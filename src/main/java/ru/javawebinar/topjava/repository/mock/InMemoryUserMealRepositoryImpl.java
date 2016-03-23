@@ -22,6 +22,7 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
 
     {
         UserMealsUtil.MEAL_LIST.forEach(e -> this.save(e, 1));
+        UserMealsUtil.MEAL_LIST_2.forEach(e -> this.save(e,2));
     }
 
     @Override
