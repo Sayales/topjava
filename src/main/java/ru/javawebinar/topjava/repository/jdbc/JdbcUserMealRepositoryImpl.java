@@ -54,11 +54,14 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
                 .addValue("description", userMeal.getDescription())
                 .addValue("calories", userMeal.getCalories());
         if (userMeal.isNew()) {
-            Number key = insertUserMeal.execute(map);
+            Number key = insertUserMeal.executeAndReturnKey(map);
             userMeal.setId(key.intValue());
         } else {
-            namedParameterJdbcTemplate.update("UPDATE user_meals SET user_id=:user_id, datetime=:datetime, description=:description, calories=:calories",
+
+           int res = namedParameterJdbcTemplate.update("UPDATE user_meals SET  datetime=:datetime, description=:description, calories=:calories WHERE id=:id AND user_id=:user_id",
                     map);
+            if (res == 0)
+                return null;
         }
         return userMeal;
     }
@@ -88,7 +91,7 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public List<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        List<UserMeal> result = jdbcTemplate.query("SELECT * FROM user_meals WHERE datetime > ? AND datetime < ? ORDER BY datetime DESC", ROW_MAPPER, Timestamp.valueOf(startDate), Timestamp.valueOf(endDate));
+        List<UserMeal> result = jdbcTemplate.query("SELECT * FROM user_meals WHERE datetime > ? AND datetime < ? AND user_id=? ORDER BY datetime DESC", ROW_MAPPER, Timestamp.valueOf(startDate), Timestamp.valueOf(endDate),userId);
         return result;
     }
     private class UserMealRowMapper implements RowMapper<UserMeal> {

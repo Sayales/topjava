@@ -1,7 +1,10 @@
 package ru.javawebinar.topjava.model;
 
+import ru.javawebinar.topjava.util.TimeUtil;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * GKislin
@@ -62,7 +65,7 @@ public class UserMeal extends BaseEntity {
     public String toString() {
         return "UserMeal{" +
                 "id=" + id +
-                ", dateTime=" + dateTime +
+                ", dateTime=" + TimeUtil.toString(dateTime) +
                 ", description='" + description + '\'' +
                 ", calories=" + calories +
                 '}';

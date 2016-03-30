@@ -14,7 +14,8 @@ INSERT INTO user_roles (role, user_id) VALUES
   ('ROLE_ADMIN', 100001);
 
 INSERT INTO user_meals (user_id, datetime, description, calories) VALUES
-  (100000, now(), 'Some descr', 500),
-  (100000, now(), 'Some descr2', 600),
-  (100001, now(), 'Admin food', 500),
-  (100001, now(), 'Admin food2', 1000);
+  (100000, '2016-3-27 11:56:00'::TIMESTAMP, 'Some descr', 500),
+  (100000,'2016-3-28 11:56:00'::TIMESTAMP , 'Some descr2', 600),
+  (100000,'2016-3-29 11:56:00'::TIMESTAMP , 'Some descr3', 700),
+  (100001, '2016-3-27 11:56:00'::TIMESTAMP, 'Admin food', 500),
+  (100001, '2016-3-24 9:37:00'::TIMESTAMP, 'Admin food2', 1000);
