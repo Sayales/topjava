@@ -13,12 +13,11 @@
 
     <!-- Change DB by comment/uncomment property-placeholder -->
 
-    <!--<context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>-->
-    <!--<context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>-->
+ <!--   <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
+    <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>-->
 
     <!--<context:component-scan base-package="ru.javawebinar.**.repository.jpa"/>-->
-    <context:component-scan base-package="ru.javawebinar.**.repository.datajpa"/>
-    <jpa:repositories base-package="ru.javawebinar.**.repository.datajpa"/>
+
 
 
     <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
@@ -42,7 +41,7 @@
 
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
-                  p:showSql="${jpa.showSql}">
+                  p:showSql="${jpa.showSql}" >
             </bean>
         </property>
     </bean>
@@ -88,9 +87,27 @@
     </beans>
 
     <beans profile="jdbc">
+        <bean id="jdbcUserMealRepositoryImpl" class="ru.javawebinar.topjava.repository.jdbc.JdbcUserMealRepositoryImpl"/>
+        <bean id="jdbcUserRepositoryImpl" class="ru.javawebinar.topjava.repository.jdbc.JdbcUserRepositoryImpl"/>
+        <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+            <constructor-arg ref="dataSource"/>
+        </bean>
+
+        <bean id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+            <constructor-arg ref="dataSource"/>
+        </bean>
     </beans>
     <beans profile="jpa">
+        <bean id="jpaUserMealRepositoryImpl" class="ru.javawebinar.topjava.repository.jpa.JpaUserMealRepositoryImpl"/>
+        <bean id="jpaUserRepositoryImpl" class="ru.javawebinar.topjava.repository.jpa.JpaUserRepositoryImpl"/>
     </beans>
     <beans profile="datajpa">
+     <!--   <bean id="dataJpaUserMealRepositoryImpl"
+              class="ru.javawebinar.topjava.repository.datajpa.DataJpaUserMealRepositoryImpl">
+        </bean>
+        <bean id="dataJpaUserRepositoryImpl" class="ru.javawebinar.topjava.repository.datajpa.DataJpaUserRepositoryImpl"/>
+    -->
+        <context:component-scan base-package="ru.javawebinar.**.repository.datajpa"/>
+        <jpa:repositories base-package="ru.javawebinar.**.repository.datajpa"/>
     </beans>
 </beans>
